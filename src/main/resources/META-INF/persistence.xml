@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  version="3.2" 
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd">
+  <persistence-unit name="Copercog">
+      
+      
+       <class>copercog.model.Cogumelos</class> 
+           <class>copercog.model.Clientes</class> 
+          <class>copercog.model.ENDERECO_DIGITAL</class> 
+            <class>copercog.model.Endereco_Fisico</class> 
+                <class>copercog.model.Estoque</class> 
+              <class>copercog.model.Pedidos</class> 
+       <class>copercog.model.usuarios</class> 
+       
+    <properties>
+      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost/copercog" />
+      <property name="jakarta.persistence.jdbc.user" value="root" />
+      <property name="jakarta.persistence.jdbc.password" value="" />
+    
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+    </properties>
+  </persistence-unit>
+</persistence>
