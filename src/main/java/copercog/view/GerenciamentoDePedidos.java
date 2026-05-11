@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
+import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class GerenciamentoDePedidos extends JFrame {
     List<Pedidos> linhas;
     private JTextField txtpesquisar;
     private Set<Integer> linhasConfirmadas = new java.util.HashSet<>();
-    private String tipo; // ← campo para cascata
+    private String tipo;
 
     public GerenciamentoDePedidos(String tipo) {
         this.tipo = tipo;
@@ -84,57 +85,90 @@ public class GerenciamentoDePedidos extends JFrame {
         titulo.setForeground(Color.WHITE);
         painelPrincipal.add(titulo);
 
-        // --- CARDS ---
+        // --- CARD 1 - Total de pedidos (ESTICADO E SEM IMAGEM) ---
         JPanel card1 = new JPanel(null);
         card1.setBackground(Color.WHITE);
-        card1.setBounds(a(20), a(50), a(220), a(70));
+        card1.setBounds(a(20), a(50), a(350), a(70));
         card1.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
         cardPrincipal.add(card1);
-        JLabel label1 = new JLabel("📦 Total de pedidos");
-        label1.setBounds(a(15), a(10), a(200), a(20));
-        label1.setFont(new Font("Segoe UI Emoji", Font.BOLD, a(13)));
+
+        JLabel label1 = new JLabel("Total de pedidos");
+        label1.setBounds(a(15), a(10), a(160), a(20));
+        label1.setFont(new Font("Segoe UI", Font.BOLD, a(13)));
         card1.add(label1);
+
         valor1 = new JLabel("—");
-        valor1.setBounds(a(15), a(35), a(200), a(20));
+        valor1.setBounds(a(15), a(35), a(160), a(20));
         card1.add(valor1);
 
+        // --- CARD 2 - Pendentes ---
         JPanel card2 = new JPanel(null);
         card2.setBackground(Color.WHITE);
-        card2.setBounds(a(260), a(50), a(220), a(70));
+        card2.setBounds(a(390), a(50), a(220), a(70));
         card2.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
         cardPrincipal.add(card2);
-        JLabel label2 = new JLabel("🕒 Pendentes");
-        label2.setBounds(a(15), a(10), a(200), a(20));
-        label2.setFont(new Font("Segoe UI Emoji", Font.BOLD, a(13)));
+
+        JLabel label2 = new JLabel("Pendentes");
+        label2.setBounds(a(15), a(10), a(160), a(20));
+        label2.setFont(new Font("Segoe UI", Font.BOLD, a(13)));
         card2.add(label2);
+
         valor2 = new JLabel("—");
-        valor2.setBounds(a(15), a(35), a(200), a(20));
+        valor2.setBounds(a(15), a(35), a(160), a(20));
         card2.add(valor2);
 
+        try {
+            URL urlCard2 = getClass().getResource("/copercog/resources/062b86aa-9449-4d79-89e4-cfdb4c819606.png");
+            if (urlCard2 != null) {
+                ImageIcon icon2 = new ImageIcon(urlCard2);
+                Image img2 = icon2.getImage().getScaledInstance(a(50), a(50), Image.SCALE_SMOOTH);
+                JLabel imgLabel2 = new JLabel(new ImageIcon(img2));
+                imgLabel2.setBounds(a(160), a(10), a(50), a(50));
+                card2.add(imgLabel2);
+            }
+        } catch (Exception e) {}
+
+        // --- CARD 3 - Concluídos ---
         JPanel card3 = new JPanel(null);
         card3.setBackground(Color.WHITE);
-        card3.setBounds(a(500), a(50), a(220), a(70));
+        card3.setBounds(a(630), a(50), a(220), a(70));
         card3.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
         cardPrincipal.add(card3);
-        JLabel label3 = new JLabel("✅ Concluídos");
-        label3.setBounds(a(15), a(10), a(200), a(20));
-        label3.setFont(new Font("Segoe UI Emoji", Font.BOLD, a(13)));
+
+        JLabel label3 = new JLabel("Concluídos");
+        label3.setBounds(a(15), a(10), a(160), a(20));
+        label3.setFont(new Font("Segoe UI", Font.BOLD, a(13)));
         card3.add(label3);
+
         valor3 = new JLabel("—");
-        valor3.setBounds(a(15), a(35), a(200), a(20));
+        valor3.setBounds(a(15), a(35), a(160), a(20));
         card3.add(valor3);
 
+        try {
+            URL urlCard3 = getClass().getResource("/copercog/resources/iconeverde.png");
+            if (urlCard3 != null) {
+                ImageIcon icon3 = new ImageIcon(urlCard3);
+                Image img3 = icon3.getImage().getScaledInstance(a(50), a(50), Image.SCALE_SMOOTH);
+                JLabel imgLabel3 = new JLabel(new ImageIcon(img3));
+                imgLabel3.setBounds(a(160), a(10), a(50), a(50));
+                card3.add(imgLabel3);
+            }
+        } catch (Exception e) {}
+
+        // --- CARD 4 - Receita total (ESTICADO E SEM IMAGEM) ---
         JPanel card4 = new JPanel(null);
         card4.setBackground(Color.WHITE);
-        card4.setBounds(a(740), a(50), a(220), a(70));
+        card4.setBounds(a(870), a(50), a(390), a(70));
         card4.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
         cardPrincipal.add(card4);
-        JLabel label4 = new JLabel("💰 Receita total");
-        label4.setBounds(a(15), a(10), a(200), a(20));
-        label4.setFont(new Font("Segoe UI Emoji", Font.BOLD, a(13)));
+
+        JLabel label4 = new JLabel("Receita total");
+        label4.setBounds(a(15), a(10), a(160), a(20));
+        label4.setFont(new Font("Segoe UI", Font.BOLD, a(13)));
         card4.add(label4);
+
         valor4 = new JLabel("—");
-        valor4.setBounds(a(15), a(35), a(200), a(20));
+        valor4.setBounds(a(15), a(35), a(160), a(20));
         card4.add(valor4);
 
         // --- BOTÃO ORDENAR ---
@@ -171,14 +205,10 @@ public class GerenciamentoDePedidos extends JFrame {
         grupo.add(check2);
 
         check1.addItemListener(e -> {
-            if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-                btnPesquisarActionPerformed(null);
-            }
+            if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) btnPesquisarActionPerformed(null);
         });
         check2.addItemListener(e -> {
-            if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-                btnPesquisarActionPerformed(null);
-            }
+            if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) btnPesquisarActionPerformed(null);
         });
 
         painelFiltros.add(check1);
@@ -203,7 +233,6 @@ public class GerenciamentoDePedidos extends JFrame {
         txtpesquisar.setForeground(Color.BLACK);
         txtpesquisar.setFont(new Font("Zilla Slab", Font.BOLD, a(16)));
         txtpesquisar.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        txtpesquisar.setToolTipText("Digite o nome do cliente");
         cardPrincipal.add(txtpesquisar);
 
         // --- BOTÃO PESQUISAR ---
@@ -236,15 +265,8 @@ public class GerenciamentoDePedidos extends JFrame {
         btnNovo.setFocusPainted(false);
         btnNovo.setCursor(new Cursor(Cursor.HAND_CURSOR));
         UI.arredondar(btnNovo, 7, new Color(52, 152, 219));
-        btnNovo.addActionListener(e -> new Cadastrodepedido(this, tipo).setVisible(true)); // passa o tipo
-        btnNovo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent e) {
-                btnNovo.setBackground(new Color(41, 128, 185));
-            }
-            public void mouseExited(java.awt.event.MouseEvent e) {
-                btnNovo.setBackground(new Color(52, 152, 219));
-            }
-        });
+        btnNovo.addActionListener(e -> new Cadastrodepedido(this, tipo).setVisible(true));
+        cardPrincipal.add(btnNovo);
 
         // --- BOTÃO EXCLUIR ---
         btnExcluir = new JButton("Excluir pedido") {
@@ -262,20 +284,9 @@ public class GerenciamentoDePedidos extends JFrame {
         btnExcluir.setFocusPainted(false);
         btnExcluir.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnExcluir.addActionListener(evt -> btnExcluirActionPerformed(evt));
-        btnExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent e) {
-                btnExcluir.setBackground(Color.decode("#7A0808"));
-            }
-            public void mouseExited(java.awt.event.MouseEvent e) {
-                btnExcluir.setBackground(Color.decode("#A60B0B"));
-            }
-        });
         UI.arredondar(btnExcluir, 7, Color.decode("#A60B0B"));
-
-        cardPrincipal.add(btnNovo);
         cardPrincipal.add(btnExcluir);
 
-        // Usuário só visualiza, Operador não pode excluir
         if (tipo.equals("Usuário")) {
             btnNovo.setVisible(false);
             btnExcluir.setVisible(false);
@@ -287,9 +298,7 @@ public class GerenciamentoDePedidos extends JFrame {
         String[] colunas = {"Item ▼", "Peso (kg) ▼", "Data ▼", "Total (R$) ▼", "Status ▼", "Cliente ▼"};
         model = new DefaultTableModel(null, colunas) {
             @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
+            public boolean isCellEditable(int row, int column) { return false; }
         };
         tabela = new JTable(model);
         JTableHeader header = tabela.getTableHeader();
@@ -300,32 +309,23 @@ public class GerenciamentoDePedidos extends JFrame {
 
         tabela.setRowHeight(a(30));
         tabela.setShowGrid(true);
-        tabela.setGridColor(new Color(200, 200, 200));
-        tabela.setShowHorizontalLines(true);
-        tabela.setShowVerticalLines(true);
-
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    acaoFinalizarPedido();
-                }
+                if (e.getClickCount() == 2) acaoFinalizarPedido();
             }
         });
 
         DefaultTableCellRenderer renderizador = new DefaultTableCellRenderer() {
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                    boolean isSelected, boolean hasFocus, int row, int column) {
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 setHorizontalAlignment(SwingConstants.CENTER);
-
                 if (column == 4) {
                     String status = value != null ? value.toString() : "";
                     if (status.equals("CONFIRMADO")) {
                         setBackground(new Color(0x27AE60));
                         setForeground(Color.WHITE);
-                        setText("CONFIRMADO");
                     } else {
                         setBackground(new Color(0xF5D97A));
                         setForeground(new Color(0x5C4A00));
@@ -334,7 +334,6 @@ public class GerenciamentoDePedidos extends JFrame {
                 } else {
                     setBackground(isSelected ? table.getSelectionBackground() : Color.WHITE);
                     setForeground(isSelected ? table.getSelectionForeground() : Color.BLACK);
-                    setFont(table.getFont());
                 }
                 return this;
             }
@@ -354,112 +353,55 @@ public class GerenciamentoDePedidos extends JFrame {
     public void popularTabela() {
         model.setRowCount(0);
         double somaReceita = 0;
-        List<String> listadestatus = new ArrayList<>();
+        int pendentes = 0, concluidos = 0;
         try {
             linhas = selectpedidos();
             for (Pedidos p : linhas) {
-                Object[] linha = {
-                    p.getNomeProduto(),
-                    p.getPeso(),
-                    p.getDataPedidoFormatada(),
-                    p.getPrecoTotal(),
-                    p.getStatus(),
-                    (p.getCliente() != null ? p.getCliente().getNome() : "—")
-                };
-                if (p.getStatus().equals("PENDENTE")) {
-                    listadestatus.add(p.getStatus());
-                }
-                model.addRow(linha);
+                model.addRow(new Object[]{
+                    p.getNomeProduto(), p.getPeso(), p.getDataPedidoFormatada(),
+                    p.getPrecoTotal(), p.getStatus(), (p.getCliente() != null ? p.getCliente().getNome() : "—")
+                });
+                if (p.getStatus().equals("PENDENTE")) pendentes++;
+                if (p.getStatus().equals("CONFIRMADO")) concluidos++;
                 somaReceita += p.getPrecoTotal();
             }
             valor1.setText(String.valueOf(model.getRowCount()));
-            valor2.setText(String.valueOf(listadestatus.size()));
+            valor2.setText(String.valueOf(pendentes));
+            valor3.setText(String.valueOf(concluidos));
             valor4.setText(String.format("%.2f", somaReceita));
-        } catch (Exception e) {
-            System.err.println("Erro ao popular a tabela: " + e.getMessage());
-        }
+        } catch (Exception e) {}
     }
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            int linhaView = tabela.getSelectedRow();
-            if (linhaView == -1) {
-                JOptionPane.showMessageDialog(null, "Selecione um pedido!");
-                return;
-            }
-            int linhaModel = tabela.convertRowIndexToModel(linhaView);
-            Pedidos p = linhas.get(linhaModel);
-            new PedidosDAO().delete_pedidos(p);
-            linhasConfirmadas.remove(linhaModel);
-            linhas = selectpedidos();
-            popularTabela();
-        } catch (Exception e) {
-            System.err.println("Erro: " + e.getMessage());
-        }
+        int linhaView = tabela.getSelectedRow();
+        if (linhaView == -1) return;
+        int linhaModel = tabela.convertRowIndexToModel(linhaView);
+        new PedidosDAO().delete_pedidos(linhas.get(linhaModel));
+        popularTabela();
     }
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             String parametro = txtpesquisar.getText().trim();
-            String ordem = null;
-            if (check1.isSelected()) ordem = "DESC";
-            if (check2.isSelected()) ordem = "ASC";
-
+            String ordem = check1.isSelected() ? "DESC" : (check2.isSelected() ? "ASC" : null);
             List<Pedidos> resultado = PedidosDAO.selectpedidosOrdenado(ordem);
             model.setRowCount(0);
-
             for (Pedidos p : resultado) {
-                String nomeCliente = (p.getCliente() != null ? p.getCliente().getNome() : "—");
-                if (!parametro.isEmpty() && !nomeCliente.equalsIgnoreCase(parametro)) continue;
-                model.addRow(new Object[]{
-                    p.getNomeProduto(), p.getPeso(),
-                    p.getDataPedidoFormatada(), p.getPrecoTotal(),
-                    p.getStatus(), nomeCliente
-                });
+                String nome = (p.getCliente() != null ? p.getCliente().getNome() : "—");
+                if (!parametro.isEmpty() && !nome.equalsIgnoreCase(parametro)) continue;
+                model.addRow(new Object[]{p.getNomeProduto(), p.getPeso(), p.getDataPedidoFormatada(), p.getPrecoTotal(), p.getStatus(), nome});
             }
-
-            if (model.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "Nenhum resultado encontrado");
-            }
-        } catch (Exception e) {
-            System.err.println("Erro ao pesquisar pedidos: " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Erro ao buscar pedidos.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public Pedidos getPedidoSelecionad2() {
-        int linhaView = tabela.getSelectedRow();
-        if (linhaView == -1) {
-            JOptionPane.showMessageDialog(this, "Por favor, selecione um pedido na tabela.");
-            return null;
-        }
-        int linhaModel = tabela.convertRowIndexToModel(linhaView);
-        return linhas.get(linhaModel);
+        } catch (Exception e) {}
     }
 
     private void acaoFinalizarPedido() {
-        Pedidos p = getPedidoSelecionad2();
-        if (p == null) return;
-
-        int resposta = JOptionPane.showConfirmDialog(
-                this,
-                "Finalizar pedido de: " + p.getNomeProduto() + "?",
-                "Confirmação",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (resposta == JOptionPane.YES_OPTION) {
-            linhasConfirmadas.add(tabela.convertRowIndexToModel(tabela.getSelectedRow()));
-            tabela.repaint();
-            p.getId();
-            PedidosDAO peddao1 = new PedidosDAO();
-            peddao1.updateStatus(p.getId(), "CONFIRMADO");
-
-            EstoqueDAO DAOs = new EstoqueDAO();
-            DAOs.diminuirQuantidade(
-                p.getNomeProduto(),
-                p.getPeso()
-            );
+        int linhaView = tabela.getSelectedRow();
+        if (linhaView == -1) return;
+        Pedidos p = linhas.get(tabela.convertRowIndexToModel(linhaView));
+        if (JOptionPane.showConfirmDialog(this, "Finalizar pedido?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            new PedidosDAO().updateStatus(p.getId(), "CONFIRMADO");
+            new EstoqueDAO().diminuirQuantidade(p.getNomeProduto(), p.getPeso());
+            popularTabela();
         }
     }
 

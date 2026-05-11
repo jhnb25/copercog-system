@@ -161,15 +161,15 @@ public class cadastrodeproduto extends JFrame {
 
         grupo = new ButtonGroup();
 
-        jrbinnatura = new JRadioButton("🌿 In natura");
-        jrbinnatura.setBounds(a(30), a(245), a(150), a(38));
+        jrbinnatura = new JRadioButton(" In natura");
+       jrbinnatura.setBounds(a(30), a(245), a(170), a(38));
         jrbinnatura.setFont(new Font("Segoe UI", Font.PLAIN, a(14)));
         jrbinnatura.setBackground(new Color(0xE8F0FE));
         jrbinnatura.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jrbinnatura.setOpaque(true);
 
-        jrbinconserva = new JRadioButton("🫙 In conserva");
-        jrbinconserva.setBounds(a(190), a(245), a(170), a(38));
+        jrbinconserva = new JRadioButton(" In conserva");
+ jrbinconserva.setBounds(a(210), a(245), a(190), a(38));
         jrbinconserva.setFont(new Font("Segoe UI", Font.PLAIN, a(14)));
         jrbinconserva.setBackground(Color.WHITE);
         jrbinconserva.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -215,8 +215,8 @@ public class cadastrodeproduto extends JFrame {
 
         jPanel_Preview.add(imgPlaceholder);
 
-        JLabel lblIcone = new JLabel("🍄", SwingConstants.CENTER);
-        lblIcone.setBounds(0, a(70), a(250), a(80));
+        JLabel lblIcone = new JLabel("", SwingConstants.CENTER);
+        lblIcone.setBounds(0, a(100), a(250), a(80));
         lblIcone.setFont(new Font("Segoe UI Emoji", Font.PLAIN, a(52)));
 
         imgPlaceholder.add(lblIcone);
@@ -304,18 +304,18 @@ public class cadastrodeproduto extends JFrame {
         jPanel_Card.add(jlblCancelar);
 
         // VOLTAR
-        jlblVoltar = new JLabel("Voltar ⮞", SwingConstants.CENTER);
+        jlblVoltar = new JLabel("Voltar ⮞ ", SwingConstants.CENTER);
 
-        jlblVoltar.setBounds(
-                (larguraTela - a(150)) / 2,
-                a(620),
-                a(150),
-                a(35)
-        );
+  jlblVoltar.setBounds(
+        (larguraTela - a(220)) / 2,
+        a(620),
+        a(220),
+        a(45)
+);
 
         jlblVoltar.setForeground(new Color(0x107D5B));
 
-        jlblVoltar.setFont(new Font("Segoe UI", Font.BOLD, a(18)));
+      jlblVoltar.setFont(new Font("Dialog", Font.BOLD, a(18)));
 
         jlblVoltar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 

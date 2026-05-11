@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.border.AbstractBorder;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -124,6 +126,8 @@ public class ControleEstoque extends JFrame {
         });
         jPanel_2.add(btnMenu);
 
+        
+        Border bordaEntalhada = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
         // ===== BOTÃO EXCLUIR =====
         btnExcluir = new JButton("Excluir item") {
             @Override
@@ -138,9 +142,11 @@ public class ControleEstoque extends JFrame {
         btnExcluir.setForeground(Color.WHITE);
         btnExcluir.setOpaque(false);
         btnExcluir.setContentAreaFilled(false);
-        btnExcluir.setFocusPainted(false);
+
+         btnExcluir.setBorder(bordaEntalhada);
+        
         btnExcluir.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        UI.arredondar(btnExcluir, a(12), new Color(0x7A0808));
+  
         btnExcluir.addActionListener(e -> btnExcluirActionPerformed(e));
         btnExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent e) {
