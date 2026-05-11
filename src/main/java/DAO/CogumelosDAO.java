@@ -24,31 +24,24 @@ public class CogumelosDAO {
     
     
     
-    public void insert_cogumelos(Cogumelos c) {
-
+public void insert_cogumelos(Cogumelos c) {
     EntityManager em = getEntityManager();
-
     try {
         em.getTransaction().begin();
-
         em.persist(c);
 
         Estoque e = new Estoque();
         e.setProduto(c);
         e.setPesoAtual(0);
-
         em.persist(e);
 
         em.getTransaction().commit();
-
     } catch (Exception ex) {
-
         if (em.getTransaction().isActive()) {
             em.getTransaction().rollback();
         }
-
-        throw new RuntimeException(ex);
-
+        // Lance a exceção original em vez de encapsular em RuntimeException
+        throw ex; 
     } finally {
         em.close();
     }

@@ -288,7 +288,7 @@ public class cadastrodeproduto extends JFrame {
 
         jlblCancelar.setForeground(new Color(0x8D2626));
 
-        jlblCancelar.setFont(new Font("Segoe UI", Font.PLAIN, a(16)));
+        jlblCancelar.setFont(new Font("Segoe UI", Font.PLAIN, a(20)));
 
         jlblCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
@@ -331,86 +331,84 @@ public class cadastrodeproduto extends JFrame {
         jPanel_Fundo.add(jlblVoltar);
     }
 
-    // =========================
-    // LÓGICA ORIGINAL MANTIDA
-    // =========================
-    private void jbtncadastrarActionPerformed(ActionEvent evt) {
+    
+private void jbtncadastrarActionPerformed(ActionEvent evt) {
 
-        String nome = txtNome.getText().trim();
-        String precotxt = txtPreco.getText().trim();
+    // 1. Coleta e limpeza dos dados de entrada
+    String nome = txtNome.getText().trim();
+    String precotxt = txtPreco.getText().trim();
 
-        if (nome.isEmpty() || precotxt.isEmpty()) {
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Preencha todos os campos."
-            );
+    // 2. Validação de preenchimento obrigatório
+    if (nome.isEmpty() || precotxt.isEmpty()) {
+
+        JOptionPane.showMessageDialog(this, "Preencha todos os campos.");
+
+        return;
+    }
+
+
+    // 3. Validação de seleção dos botões de opção (RadioButtons)
+    if (!jrbinnatura.isSelected() && !jrbinconserva.isSelected()) {
+
+        JOptionPane.showMessageDialog(this, "Selecione o tipo do cogumelo.");
+
+        return;
+    }
+
+
+    // 4. Validação de formato (Nome deve conter apenas letras)
+    if (!nome.matches("^[\\p{L} ]+$")) {
+
+        JOptionPane.showMessageDialog(this, "Nome só pode conter letras.");
+
+        return;
+    }
+
+
+    try {
+
+        // 5. Tratamento numérico do preço
+        double preco = Double.parseDouble(precotxt.replace(",", "."));
+
+        if (preco <= 0) {
+
+            JOptionPane.showMessageDialog(this, "Preço deve ser maior que zero.");
 
             return;
         }
 
-        if (!jrbinnatura.isSelected() && !jrbinconserva.isSelected()) {
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Selecione o tipo do cogumelo."
-            );
+        // 6. Definição da categoria do produto
+        String tipoProduto = jrbinnatura.isSelected() ? "in natura" : "conserva";
 
-            return;
-        }
 
-        if (!nome.matches("^[\\p{L} ]+$")) {
+        // 7. Processo de salvamento via DAO
+        Cogumelos cogumelo = new Cogumelos(nome, tipoProduto, preco);
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Nome só pode conter letras."
-            );
+        CogumelosDAO dao = new CogumelosDAO();
 
-            return;
-        }
+        dao.insert_cogumelos(cogumelo);
 
-        try {
 
-            double preco = Double.parseDouble(
-                    precotxt.replace(",", ".")
-            );
+        // 8. Procedimentos de sucesso
+        new TelaConfirmacao().setVisible(true);
 
-            if (preco <= 0) {
+        dispose();
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Preço deve ser maior que zero."
-                );
 
-                return;
-            }
+    } catch (NumberFormatException e) {
 
-            String tipoProduto = jrbinnatura.isSelected()
-                    ? "in natura"
-                    : "conserva";
+        JOptionPane.showMessageDialog(this, "Preço inválido! Use números e vírgula.");
 
-            Cogumelos cogumelo = new Cogumelos(
-                    nome,
-                    tipoProduto,
-                    preco
-            );
 
-            CogumelosDAO dao = new CogumelosDAO();
+    } catch (Exception e) {
 
-            dao.insert_cogumelos(cogumelo);
+       
+        // O erro é identificado buscando o texto "Duplicate entry" na exceção
+        String erroInfo = e.toString();
 
-            new TelaConfirmacao().setVisible(true);
-
-            dispose();
-
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Preço inválido!"
-            );
-
-        } catch (jakarta.persistence.RollbackException e) {
+        if (erroInfo.contains("Duplicate entry")) {
 
             JOptionPane.showMessageDialog(
                     this,
@@ -419,14 +417,12 @@ public class cadastrodeproduto extends JFrame {
                     JOptionPane.WARNING_MESSAGE
             );
 
-        } catch (Exception e) {
+        } else {
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Erro: " + e.getMessage()
-            );
+            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
         }
     }
+}
 
     public void limparcampos() {
 

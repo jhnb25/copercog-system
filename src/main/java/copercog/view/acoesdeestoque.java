@@ -9,12 +9,10 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -26,7 +24,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.border.AbstractBorder;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -423,7 +420,7 @@ public class acoesdeestoque extends JFrame {
         );
         
         
-        
+    
           
 
         jPanel_2.add(txtqt);
@@ -473,6 +470,22 @@ public class acoesdeestoque extends JFrame {
                 e -> jbtnaddActionPerformed(e)
         );
 
+       
+            //26DD5D
+           jbtnadd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                jbtnadd.setBackground(Color.decode("#26DD5D"));
+            }
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                jbtnadd.setBackground(Color.decode("#0388E3C"));
+            }
+        });
+        
+        
+        
+        
+        
+        
         jPanel_2.add(jbtnadd);
 
         // =========================
@@ -511,9 +524,17 @@ public class acoesdeestoque extends JFrame {
                 new Cursor(Cursor.HAND_CURSOR)
         );
 
-
+//8D2626
         
-
+     jbtnremover.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                jbtnremover.setBackground(Color.decode("#8D2626"));
+            }
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                jbtnremover.setBackground(Color.decode("#0E64A19"));
+            }
+        });
+        
 
         
      

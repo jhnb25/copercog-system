@@ -41,7 +41,7 @@ public class usuariosDAO {
 }
     
     
-    
+    //criptografia no bd ,envia string e transforma na tabela do bd em hash, valida 
     
   
     

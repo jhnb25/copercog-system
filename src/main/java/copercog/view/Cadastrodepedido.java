@@ -2,6 +2,7 @@ package copercog.view;
 
 import static DAO.ClientesDAO.select_cliente;
 import static DAO.CogumelosDAO.retorna_todos_cogumelos;
+import DAO.EstoqueDAO;
 
 import DAO.PedidosDAO;
 import copercog.model.Clientes;
@@ -199,6 +200,12 @@ public class Cadastrodepedido extends JFrame {
         try {
             Pedidos pedido = montarPedido();
             new PedidosDAO().insert_pedidos(pedido);
+            
+            
+    
+                
+                
+            
             telaPrincipal.atualizarTabela();
             JOptionPane.showMessageDialog(null, "Pedido cadastrado com sucesso!");
             dispose();
@@ -218,7 +225,19 @@ public class Cadastrodepedido extends JFrame {
         }
 
         double peso = Double.parseDouble(txtPeso.getText().trim());
-        return new Pedidos(c, cg.getNome(), peso, cg);
+        
+        
+        //antes reduz no estoque pra poder controlar senao tu faria mts pedidos e poderia ultrapassar a qt atual
+        //talvez colocar isso no botão?
+        EstoqueDAO dao=new EstoqueDAO();
+            boolean reduziu =     dao.diminuirQuantidade( cg.getNome(),  peso);
+         if (reduziu) {
+            return new Pedidos(c, cg.getNome(), peso, cg);
+        } else {
+            // Caso caia aqui, o peso solicitado é maior que o estoque ou o produto não existe
+            javax.swing.JOptionPane.showMessageDialog(null, "Estoque insuficiente ou erro ao processar.");
+            return null; 
+        }
     }
 
     private String validarCampos() {

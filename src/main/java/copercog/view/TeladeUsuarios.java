@@ -1,6 +1,7 @@
 package copercog.view;
 
 import DAO.usuariosDAO;
+import static DAO.usuariosDAO.getMD5;
 import copercog.model.Copercog;
 import copercog.model.usuarios;
 import java.awt.*;
@@ -60,13 +61,13 @@ public class TeladeUsuarios extends JFrame {
         JLabel lUser = new JLabel("Usuário");
         lUser.setBounds(160, 50, 100, 30);
 
-        txtLogin = new JTextField();
+        txtLogin = new JTextField("admin_master");
         txtLogin.setBounds(50, 80, 300, 30);
 
         JLabel lPass = new JLabel("Senha");
         lPass.setBounds(160, 120, 100, 30);
 
-        txtSenha = new JPasswordField(); // JPasswordField oculta a senha
+        txtSenha = new JPasswordField("senha123"); // JPasswordField oculta a senha
         txtSenha.setBounds(50, 150, 300, 30);
 
         btnLogin = new JButton("Entrar");
@@ -93,18 +94,25 @@ public class TeladeUsuarios extends JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
 
         String login = txtLogin.getText().trim();
-        String senha = txtSenha.getText().trim();
+        String senhaPura = txtSenha.getText().trim();
 
-        if (login.isEmpty() || senha.isEmpty()) {
+        if (login.isEmpty() || senhaPura.isEmpty()) {
             JOptionPane.showMessageDialog(null,
                 "Usuário e senha vazios", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
+String senhaCriptografada = getMD5(senhaPura);
         // monta o objeto e valida no banco
-        usuarios usuarioTemp = new usuarios(login, senha);
+        usuarios usuarioTemp = new usuarios(login, senhaCriptografada);
         usuarios usuarioLogado = usuariosDAO.validacao(usuarioTemp);
 
+    
+        
+        
+        
+        
+        
         if (usuarioLogado == null) return; // mensagem já exibida no DAO
 
         String tipo = usuarioLogado.getTipo();
@@ -112,15 +120,15 @@ public class TeladeUsuarios extends JFrame {
         switch (tipo) {
             case "Administrador":
                 JOptionPane.showMessageDialog(null,
-                    "Usuário master!\nSuas ações são: cadastrar, excluir e exibir lista");
+                    "Usuário master\nSuas ações são: cadastrar, excluir e exibir lista");
                 break;
             case "Operador":
                 JOptionPane.showMessageDialog(null,
-                    "Bem-vindo, Operador!\nSuas ações são: cadastrar e exibir lista");
+                    "Operador\nSuas ações são: cadastrar e exibir lista");
                 break;
             case "Usuário":
                 JOptionPane.showMessageDialog(null,
-                    "Bem-vindo!\nSua ação é: exibir lista");
+                    "Usuário comum\nSua ação é: exibir lista");
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Tipo de usuário desconhecido.");

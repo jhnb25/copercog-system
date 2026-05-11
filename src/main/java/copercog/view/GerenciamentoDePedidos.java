@@ -22,6 +22,7 @@ public class GerenciamentoDePedidos extends JFrame {
     private JPanel cardPrincipal;
     private JLabel titulo;
     private JCheckBox check1, check2;
+   private     ButtonGroup grupo;
     private JButton btnNovo, btnExcluir, btnPesquisar;
     private JTable tabela;
     private DefaultTableModel model;
@@ -198,7 +199,7 @@ public class GerenciamentoDePedidos extends JFrame {
         painelFiltros.setVisible(false);
         cardPrincipal.add(painelFiltros);
 
-        ButtonGroup grupo = new ButtonGroup();
+         grupo = new ButtonGroup();
         check1 = new JCheckBox("Maior preço");
         check2 = new JCheckBox("Menor preço");
         grupo.add(check1);
@@ -216,6 +217,10 @@ public class GerenciamentoDePedidos extends JFrame {
 
         btnFiltros.addActionListener(e -> {
             painelFiltros.setVisible(!painelFiltros.isVisible());
+            if (!painelFiltros.isVisible()) {
+        grupo.clearSelection();
+    }
+            
             btnFiltros.setText(painelFiltros.isVisible() ? "Ordenar  ▲" : "Ordenar  ▼");
         });
 
@@ -385,6 +390,7 @@ public class GerenciamentoDePedidos extends JFrame {
             String parametro = txtpesquisar.getText().trim();
             String ordem = check1.isSelected() ? "DESC" : (check2.isSelected() ? "ASC" : null);
             List<Pedidos> resultado = PedidosDAO.selectpedidosOrdenado(ordem);
+           
             model.setRowCount(0);
             for (Pedidos p : resultado) {
                 String nome = (p.getCliente() != null ? p.getCliente().getNome() : "—");

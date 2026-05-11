@@ -43,6 +43,7 @@ copercog\view\GerenciamentoDePedidos$1.class
 DAO\usuariosDAO.class
 DAO\EstoqueDAO.class
 copercog\view\CadastrodeClientes.class
+copercog\view\acoesdeestoque$4.class
 copercog\model\ENDERECO_DIGITAL.class
 copercog\view\Gerenciamentodeprodutos$6.class
 copercog\view\ControleEstoque$5.class
@@ -64,6 +65,7 @@ copercog\view\cadastrodeproduto$2.class
 copercog\view\Gerenciamentodeprodutos.class
 copercog\view\GerenciamentoDePedidos$UI$BordaArredondada.class
 DAO\Conexao.class
+copercog\view\acoesdeestoque$3.class
 copercog\view\GerenciamentoDePedidos$UI.class
 copercog\model\Copercog.class
 copercog\view\ControleEstoque$1.class
