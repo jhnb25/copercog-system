@@ -1,7 +1,8 @@
 package copercog.view;
 
 import DAO.usuariosDAO;
-import static DAO.usuariosDAO.getMD5;
+import static DAO.usuariosDAO.gerarHash;
+
 import copercog.model.Copercog;
 import copercog.model.usuarios;
 import java.awt.*;
@@ -11,7 +12,8 @@ import javax.swing.*;
 
 public class TeladeUsuarios extends JFrame {
     private JPanel painelPrincipal;
-    private JTextField txtLogin, txtSenha;
+    private JTextField txtLogin;
+   private JPasswordField txtSenha;
     private JButton btnLogin;
 
     public TeladeUsuarios() {
@@ -94,7 +96,7 @@ public class TeladeUsuarios extends JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
 
         String login = txtLogin.getText().trim();
-        String senhaPura = txtSenha.getText().trim();
+       String senhaPura = new String(txtSenha.getPassword()).trim();
 
         if (login.isEmpty() || senhaPura.isEmpty()) {
             JOptionPane.showMessageDialog(null,
@@ -102,7 +104,7 @@ public class TeladeUsuarios extends JFrame {
             return;
         }
         
-String senhaCriptografada = getMD5(senhaPura);
+String senhaCriptografada = gerarHash(senhaPura);
         // monta o objeto e valida no banco
         usuarios usuarioTemp = new usuarios(login, senhaCriptografada);
         usuarios usuarioLogado = usuariosDAO.validacao(usuarioTemp);

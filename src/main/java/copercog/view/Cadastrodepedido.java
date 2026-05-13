@@ -190,68 +190,54 @@ public class Cadastrodepedido extends JFrame {
         });
     }
 
-    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {
-        String erros = validarCampos();
-        if (!erros.isEmpty()) {
-            JOptionPane.showMessageDialog(null, erros, "Erros encontrados", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-            Pedidos pedido = montarPedido();
-            new PedidosDAO().insert_pedidos(pedido);
-            
-            
-    
-                
-                
-            
-            telaPrincipal.atualizarTabela();
-            JOptionPane.showMessageDialog(null, "Pedido cadastrado com sucesso!");
-            dispose();
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Peso inválido!");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
-        }
+private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {
+    String erros = validarCampos();
+    if (!erros.isEmpty()) {
+        JOptionPane.showMessageDialog(null, erros, "Erros encontrados", JOptionPane.WARNING_MESSAGE);
+        return;
     }
-
-    private Pedidos montarPedido() {
-        Clientes c = (Clientes) JCliente.getSelectedItem();
-        Cogumelos cg = (Cogumelos) JProduto.getSelectedItem();
-
-        if (c == null || cg == null) {
-            throw new IllegalStateException("Cliente ou produto não selecionado");
-        }
-
-        double peso = Double.parseDouble(txtPeso.getText().trim());
-        
-        
-        //antes reduz no estoque pra poder controlar senao tu faria mts pedidos e poderia ultrapassar a qt atual
-        //talvez colocar isso no botão?
-        EstoqueDAO dao=new EstoqueDAO();
-            boolean reduziu =     dao.diminuirQuantidade( cg.getNome(),  peso);
-         if (reduziu) {
-            return new Pedidos(c, cg.getNome(), peso, cg);
-        } else {
-            // Caso caia aqui, o peso solicitado é maior que o estoque ou o produto não existe
-            javax.swing.JOptionPane.showMessageDialog(null, "Estoque insuficiente ou erro ao processar.");
-            return null; 
-        }
+    try {
+        Pedidos pedido = montarPedido();
+        new PedidosDAO().insert_pedidos(pedido);
+        telaPrincipal.atualizarTabela();
+        JOptionPane.showMessageDialog(null, "Pedido cadastrado com sucesso!");
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Estoque insuficiente", JOptionPane.WARNING_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
     }
+}
 
-    private String validarCampos() {
-        StringBuilder erros = new StringBuilder();
+  
+private Pedidos montarPedido() {
+    Clientes c = (Clientes) JCliente.getSelectedItem();
+    Cogumelos cg = (Cogumelos) JProduto.getSelectedItem();
 
-        if (JCliente.getSelectedItem() == null)
-            erros.append("Cliente obrigatório\n");
+    double peso = Double.parseDouble(txtPeso.getText().trim());
 
-        if (JProduto.getSelectedItem() == null)
-            erros.append("Produto obrigatório\n");
+    if (!new EstoqueDAO().diminuirQuantidade(cg.getNome(), peso))
+        throw new IllegalArgumentException("Quantidade superior ao estoque atual!");
 
-        if (txtPeso.getText().trim().isEmpty())
-            erros.append("Peso obrigatório\n");
+    return new Pedidos(c, cg.getNome(), peso, cg);
+}
 
-        return erros.toString();
-    }
+private String validarCampos() {
+    StringBuilder erros = new StringBuilder();
+
+    if (JCliente.getSelectedItem() == null)
+        erros.append("Cliente obrigatório\n");
+
+    if (JProduto.getSelectedItem() == null)
+        erros.append("Produto obrigatório\n");
+
+    String texto = txtPeso.getText().trim();
+    if (texto.isEmpty())
+        erros.append("Peso obrigatório\n");
+    else if (!texto.matches("\\d+([.,]\\d+)?"))//um ou mais digitos d+   
+        erros.append("Peso inválido, digite um número válido\n");
+    else if (Double.parseDouble(texto) <= 0)
+        erros.append("Peso deve ser maior que zero\n");
+
+    return erros.toString();
+}
 }

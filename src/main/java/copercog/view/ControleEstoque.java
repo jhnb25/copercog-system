@@ -1,5 +1,6 @@
 package copercog.view;
 
+import DAO.CogumelosDAO;
 import DAO.EstoqueDAO;
 import static DAO.EstoqueDAO.select_nome;
 import static DAO.EstoqueDAO.selectestoque;
@@ -275,6 +276,7 @@ public class ControleEstoque extends JFrame {
         }
     }
 
+    //além disso tem que excluir cogumelos
     private void btnExcluirActionPerformed(ActionEvent evt) {
         int linhaView = tabela.getSelectedRow();
         if (linhaView == -1) {
@@ -284,7 +286,10 @@ public class ControleEstoque extends JFrame {
         int linhaModel = tabela.convertRowIndexToModel(linhaView);
         Estoque e = linhas.get(linhaModel);
         EstoqueDAO dao = new EstoqueDAO();
-        dao.excluirEstoque(e);
+        CogumelosDAO dao2= new CogumelosDAO();
+      //daqui pra baixop precisa do try catch pra pegar aquele runtime
+          dao.excluirEstoque(e);              
+    dao2.delete_cogumelos(e.getProduto());
         recarregarDados();
     }
 

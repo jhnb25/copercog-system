@@ -95,13 +95,16 @@ public class Gerenciamentodeprodutos extends JFrame {
         jPanel_1.setLayout(null);
         add(jPanel_1);
 
-        // ===== PAINEL CONTEÚDO =====
+        // ===== PAINEL CONTEÚDO =====D9D9D9
         jPanel_2 = new JPanel();
-        jPanel_2.setBounds(a(43), a(80), a(1280), a(800));
+        jPanel_2.setBounds(a(43), a(40), a(1280), a(800));
         jPanel_2.setBackground(Color.white);
         jPanel_2.setLayout(null);
         jPanel_1.add(jPanel_2);
 
+        
+          
+        
         // ===== LABELS =====
         jlblgerenciamento = new JLabel(" Estoque");
         jlblgerenciamento.setBounds(a(240), a(20), a(350), a(25));
@@ -118,8 +121,17 @@ public class Gerenciamentodeprodutos extends JFrame {
         // ===== SEPARADOR =====
         jSeparator_1 = new JSeparator();
         jSeparator_1.setBounds(0, a(60), a(1280), a(2));
+        jSeparator_1.setForeground(new Color(0xEEEEEE));
         jPanel_2.add(jSeparator_1);
 
+        
+        
+        //new Color(0xEEEEEE)
+     
+
+        
+        
+        
         // ===== BOTÃO VER PRODUTOS =====
         jbtnver = new JButton("📋 Ver produtos") {
             @Override

@@ -1,21 +1,17 @@
 package DAO;
 
+import copercog.model.Cogumelos;
+
 public class EstoqueService {
 
     private EstoqueDAO dao = new EstoqueDAO();
 
-    public boolean adicionar(String nome, String qtdTexto) {
-
-        if (nome == null || nome.trim().isEmpty()) {
-            return false;
-        }
-
-        if (!nome.matches("^[A-Za-zÀ-ÖØ-öø-ÿ\\s]+$")) {
+    public boolean adicionar(Cogumelos cogumelo, String qtdTexto) {
+        if (cogumelo == null) {
             return false;
         }
 
         double qtd;
-
         try {
             qtd = Double.parseDouble(qtdTexto);
         } catch (NumberFormatException e) {
@@ -26,17 +22,15 @@ public class EstoqueService {
             return false;
         }
 
-        return dao.addQuantidade(nome, qtd);
+        return dao.addQuantidade(cogumelo.getNome(), qtd);
     }
 
-    public boolean remover(String nome, String qtdTexto) {
-
-        if (nome == null || nome.trim().isEmpty()) {
+    public boolean remover(Cogumelos cogumelo, String qtdTexto) {
+        if (cogumelo == null) {
             return false;
         }
 
         double qtd;
-
         try {
             qtd = Double.parseDouble(qtdTexto);
         } catch (NumberFormatException e) {
@@ -47,6 +41,6 @@ public class EstoqueService {
             return false;
         }
 
-        return dao.diminuirQuantidade(nome, qtd);
+        return dao.diminuirQuantidade(cogumelo.getNome(), qtd);
     }
 }

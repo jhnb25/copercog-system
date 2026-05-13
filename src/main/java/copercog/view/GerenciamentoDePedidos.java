@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 
 public class GerenciamentoDePedidos extends JFrame {
 
@@ -34,27 +36,25 @@ public class GerenciamentoDePedidos extends JFrame {
     private Set<Integer> linhasConfirmadas = new java.util.HashSet<>();
     private String tipo;
 
-    public GerenciamentoDePedidos(String tipo) {
-        this.tipo = tipo;
-        setTitle("Gestão de Pedidos");
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setLayout(null);
-
-        Dimension tela = Toolkit.getDefaultToolkit().getScreenSize();
-        larguraTela = tela.width;
-        alturaTela = tela.height;
-        escala = larguraTela / 1366.0;
-
-        linhas = selectpedidos();
-        definir();
-
-        addWindowFocusListener(new java.awt.event.WindowAdapter() {
-            public void windowGainedFocus(java.awt.event.WindowEvent e) {
-                popularTabela();
-            }
-        });
-    }
+public GerenciamentoDePedidos(String tipo) {
+    this.tipo = tipo;
+    setTitle("Gestão de Pedidos");
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    setLayout(null);
+    Dimension tela = Toolkit.getDefaultToolkit().getScreenSize();
+    larguraTela = tela.width;
+    alturaTela = tela.height;
+    escala = larguraTela / 1366.0;
+    linhas = selectpedidos();
+    definir();
+    addWindowFocusListener(new java.awt.event.WindowAdapter() {
+        public void windowGainedFocus(java.awt.event.WindowEvent e) {
+            popularTabela();
+        }
+    });
+    setExtendedState(JFrame.MAXIMIZED_BOTH);
+    setVisible(true);
+}
 
     private int a(int valor) {
         return (int) Math.round(valor * escala);
@@ -253,7 +253,7 @@ public class GerenciamentoDePedidos extends JFrame {
         btnPesquisar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnPesquisar.addActionListener(evt -> btnPesquisarActionPerformed(evt));
         cardPrincipal.add(btnPesquisar);
-
+ Border bordaEntalhada = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
         // --- BOTÃO NOVO ---
         btnNovo = new JButton("+ Novo pedido") {
             @Override
@@ -269,8 +269,10 @@ public class GerenciamentoDePedidos extends JFrame {
         btnNovo.setContentAreaFilled(false);
         btnNovo.setFocusPainted(false);
         btnNovo.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        UI.arredondar(btnNovo, 7, new Color(52, 152, 219));
+       
         btnNovo.addActionListener(e -> new Cadastrodepedido(this, tipo).setVisible(true));
+       
+        btnNovo.setBorder(bordaEntalhada);
         cardPrincipal.add(btnNovo);
 
         // --- BOTÃO EXCLUIR ---
@@ -289,7 +291,8 @@ public class GerenciamentoDePedidos extends JFrame {
         btnExcluir.setFocusPainted(false);
         btnExcluir.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnExcluir.addActionListener(evt -> btnExcluirActionPerformed(evt));
-        UI.arredondar(btnExcluir, 7, Color.decode("#A60B0B"));
+          btnExcluir.setBorder(bordaEntalhada);
+    
         cardPrincipal.add(btnExcluir);
 
         if (tipo.equals("Usuário")) {
@@ -328,7 +331,7 @@ public class GerenciamentoDePedidos extends JFrame {
                 setHorizontalAlignment(SwingConstants.CENTER);
                 if (column == 4) {
                     String status = value != null ? value.toString() : "";
-                    if (status.equals("CONFIRMADO")) {
+                    if (status.equals("ENTREGUE")) {
                         setBackground(new Color(0x27AE60));
                         setForeground(Color.WHITE);
                     } else {
@@ -367,7 +370,7 @@ public class GerenciamentoDePedidos extends JFrame {
                     p.getPrecoTotal(), p.getStatus(), (p.getCliente() != null ? p.getCliente().getNome() : "—")
                 });
                 if (p.getStatus().equals("PENDENTE")) pendentes++;
-                if (p.getStatus().equals("CONFIRMADO")) concluidos++;
+                if (p.getStatus().equals("ENTREGUE")) concluidos++;
                 somaReceita += p.getPrecoTotal();
             }
             valor1.setText(String.valueOf(model.getRowCount()));
@@ -382,6 +385,7 @@ public class GerenciamentoDePedidos extends JFrame {
         if (linhaView == -1) return;
         int linhaModel = tabela.convertRowIndexToModel(linhaView);
         new PedidosDAO().delete_pedidos(linhas.get(linhaModel));
+        JOptionPane.showMessageDialog(null, "Pedido excluído com sucesso!");
         popularTabela();
     }
 
@@ -405,7 +409,7 @@ public class GerenciamentoDePedidos extends JFrame {
         if (linhaView == -1) return;
         Pedidos p = linhas.get(tabela.convertRowIndexToModel(linhaView));
         if (JOptionPane.showConfirmDialog(this, "Finalizar pedido?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            new PedidosDAO().updateStatus(p.getId(), "CONFIRMADO");
+            new PedidosDAO().updateStatus(p.getId(), "ENTREGUE");
             new EstoqueDAO().diminuirQuantidade(p.getNomeProduto(), p.getPeso());
             popularTabela();
         }

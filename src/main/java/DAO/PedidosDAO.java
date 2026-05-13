@@ -42,13 +42,13 @@ public class PedidosDAO {
             em.remove(p);
 
             em.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Pedido excluído com sucesso!");
+            
 
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            JOptionPane.showMessageDialog(null, "Erro ao excluir pedido: " + e.getMessage());
+          throw new RuntimeException(e);
         } finally {
             em.close();
         }
@@ -65,7 +65,7 @@ public class PedidosDAO {
             ).getResultList();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+       throw new RuntimeException(ex);
         } finally {
             em.close();
         }
@@ -86,7 +86,7 @@ public class PedidosDAO {
                     .getResultList();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+           throw new RuntimeException(ex);
         } finally {
             em.close();
         }
@@ -104,7 +104,11 @@ public class PedidosDAO {
                     Pedidos.class
             ).getResultList();
 
-        } finally {
+        } 
+        catch (Exception e) {
+    throw new RuntimeException(e);
+        
+        }finally {
             em.close();
         }
 
@@ -152,7 +156,16 @@ public class PedidosDAO {
 
             lista = em.createQuery(jpql, Pedidos.class).getResultList();
 
-        } finally {
+        } 
+         catch (Exception e) {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+        throw new RuntimeException(e);
+        
+        
+        
+         }finally {
             em.close();
         }
 
@@ -170,7 +183,7 @@ public class PedidosDAO {
             ).getResultList();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+                  throw new RuntimeException(ex);
         } finally {
             em.close();
         }

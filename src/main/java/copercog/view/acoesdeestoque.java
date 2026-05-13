@@ -1,6 +1,10 @@
 package copercog.view;
 
+
+import static DAO.EstoqueDAO.select_produtos_em_estoque;
 import DAO.EstoqueService;
+import copercog.model.Cogumelos;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -12,8 +16,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,6 +33,7 @@ import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 
 public class acoesdeestoque extends JFrame {
 
@@ -34,11 +41,12 @@ public class acoesdeestoque extends JFrame {
 
     private JButton jbtnadd, jbtnvoltar, jbtnremover, jbtncancelar;
 
-    private JTextField txtNome, txtqt;
+    private JTextField  txtqt;
+    private JComboBox<Cogumelos> JProduto ;
 
     private JLabel jLabel_1, jLabel_2, jLabel_4, jLabel_5;
 
-    private JLabel jlberr, lblMensagem;
+    private JLabel jlberr, lblMensagem,lblMensagemR;
 
     private JSeparator jSeparator_2;
 
@@ -118,7 +126,7 @@ public class acoesdeestoque extends JFrame {
         // HEADER
         // =========================
 
-        jLabel_4 = new JLabel("Estoque");
+        jLabel_4 = new JLabel("E s t o q u e");
 
         jLabel_4.setFont(
                 new Font(
@@ -285,6 +293,8 @@ public class acoesdeestoque extends JFrame {
                 a(986),
                 a(1)
         );
+         jSeparator_2.setForeground(new Color(0xEEEEEE));
+       
 
         jPanel_2.add(jSeparator_2);
 
@@ -314,50 +324,15 @@ public class acoesdeestoque extends JFrame {
 
         jPanel_2.add(jLabel_1);
 
-        txtNome =
-                new JTextField(
-                        " Digite o nome do produto"
-                );
-
-        txtNome.setBounds(
-                a(80),
-                a(150),
-                a(906),
-                a(45)
-        );
-
-        txtNome.setFont(
-                new Font(
-                        "SansSerif",
-                        Font.PLAIN,
-                        a(14)
-                )
-        );
-
-        txtNome.setForeground(Color.GRAY);
-
-        txtNome.setBorder(
-                BorderFactory.createCompoundBorder(
-                        new UI.BordaArredondada(
-                                a(8),
-                                new Color(0xCCCCCC)
-                        ),
-                        new EmptyBorder(
-                                0,
-                                10,
-                                0,
-                                10
-                        )
-                )
-        );
         
+        List<Cogumelos> listaCogumelos = select_produtos_em_estoque();
+JProduto = new JComboBox<>(listaCogumelos.toArray(new Cogumelos[0]));
+JProduto.setBounds(a(80), a(150), a(906), a(45));
+aplicarEstilo(JProduto);
+jPanel_2.add(JProduto);
         
-
-        
-  
-        
-
-        jPanel_2.add(txtNome);
+      
+      
 
         // =========================
         // CAMPO QUANTIDADE
@@ -419,7 +394,18 @@ public class acoesdeestoque extends JFrame {
                 )
         );
         
-        
+        txtqt.addFocusListener(new java.awt.event.FocusAdapter() {
+    @Override
+    public void focusGained(java.awt.event.FocusEvent evt) {
+   
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                txtqt.setCaretPosition(0);
+            }
+        });
+    }
+});
     
           
 
@@ -449,9 +435,7 @@ public class acoesdeestoque extends JFrame {
                 )
         );
 
-        jbtnadd.setBackground(
-                new Color(0x388E3C)
-        );
+        jbtnadd.setBackground(Color.decode("#0388E3"));
 
         jbtnadd.setForeground(Color.WHITE);
 
@@ -474,10 +458,10 @@ public class acoesdeestoque extends JFrame {
             //26DD5D
            jbtnadd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent e) {
-                jbtnadd.setBackground(Color.decode("#26DD5D"));
+     jbtnadd.setBackground(Color.decode("#0388E3"));
             }
             public void mouseExited(java.awt.event.MouseEvent e) {
-                jbtnadd.setBackground(Color.decode("#0388E3C"));
+      jbtnadd.setBackground(Color.decode("#0256B8"));
             }
         });
         
@@ -512,9 +496,7 @@ public class acoesdeestoque extends JFrame {
                 )
         );
 
-        jbtnremover.setBackground(
-                new Color(0xE64A19)
-        );
+          jbtnremover.setBackground(Color.decode("#8D2626"));
 
         jbtnremover.setForeground(Color.WHITE);
 
@@ -528,10 +510,11 @@ public class acoesdeestoque extends JFrame {
         
      jbtnremover.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent e) {
-                jbtnremover.setBackground(Color.decode("#8D2626"));
+                            jbtnremover.setBackground(Color.decode("#E64A19"));
+          
             }
             public void mouseExited(java.awt.event.MouseEvent e) {
-                jbtnremover.setBackground(Color.decode("#0E64A19"));
+              jbtnremover.setBackground(Color.decode("#8D2626"));
             }
         });
         
@@ -605,9 +588,20 @@ public class acoesdeestoque extends JFrame {
                 a(500),
                 a(30)
         );
+        
+          lblMensagemR = new JLabel("");
+
+        lblMensagemR.setBounds(
+                a(80),
+                a(380),
+                a(500),
+                a(30)
+        );
+        
 
         jPanel_2.add(lblMensagem);
 
+        jPanel_2.add(lblMensagemR);
         jlberr =
                 new JLabel(
                         "Erro produto inexistente!"
@@ -627,6 +621,11 @@ public class acoesdeestoque extends JFrame {
         jPanel_2.add(jlberr);
     }
 
+    
+   
+    
+    
+    
     private void jbtnvoltarActionPerformed(ActionEvent evt) {
 
         new Gerenciamentodeprodutos(tipo)
@@ -635,88 +634,94 @@ public class acoesdeestoque extends JFrame {
         dispose();
     }
 
-    private void jbtnaddActionPerformed(ActionEvent evt) {
+ private void jbtnaddActionPerformed(ActionEvent evt) {
 
-        String nome = txtNome.getText().trim();
+    Cogumelos cg = (Cogumelos) JProduto.getSelectedItem();
 
-        String qtdTexto = txtqt.getText().trim();
-
-        EstoqueService service =
-                new EstoqueService();
-
-        boolean sucesso =
-                service.adicionar(
-                        nome,
-                        qtdTexto
-                );
-
-        if (!sucesso) {
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Erro ao adicionar (produto inexistente ou valor inválido)",
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE
-            );
-
-            return;
-        }
-
-        lblMensagem.setVisible(true);
-
-        lblMensagem.setText(
-                "Produto adicionado com sucesso ✓"
-        );
-
-        lblMensagem.setForeground(
-                new Color(0, 128, 0)
-        );
-
-        txtNome.setText("");
-
-        txtqt.setText("");
-    }
-
-    private void jbtnremoverActionPerformed(ActionEvent evt) {
-
-        String nome = txtNome.getText().trim();
-
-        String qtdTexto = txtqt.getText().trim();
-
-        EstoqueService service =
-                new EstoqueService();
-
-        boolean sucesso =
-                service.remover(
-                        nome,
-                        qtdTexto
-                );
-
-        if (!sucesso) {
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Erro ao remover (produto inexistente ou valor inválido)",
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE
-            );
-
-            return;
-        }
-
+    if (cg == null) {
         JOptionPane.showMessageDialog(
                 null,
-                "Produto removido com sucesso!"
+                "Selecione um produto!",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
         );
-
-        txtNome.setText("");
-
-        txtqt.setText("");
+        return;
     }
+
+    String qtdTexto = txtqt.getText().trim();
+
+    EstoqueService service = new EstoqueService();
+
+    boolean sucesso = service.adicionar(cg, qtdTexto);
+
+    if (!sucesso) {
+        JOptionPane.showMessageDialog(
+                null,
+                "Erro ao adicionar (valor inválido)",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+        return;
+    }
+
+    lblMensagem.setVisible(true);
+    lblMensagem.setText("Produto adicionado com sucesso ✓");
+    
+    lblMensagem.setForeground(new Color(0, 128, 0));
+    javax.swing.Timer timer = new javax.swing.Timer(3000, e -> {
+    lblMensagem.setVisible(false);
+});
+timer.setRepeats(false);
+timer.start();
+    txtqt.setText("");
+}
+
+ private void jbtnremoverActionPerformed(ActionEvent evt) {
+
+    Cogumelos cg = (Cogumelos) JProduto.getSelectedItem();
+
+    if (cg == null) {
+        JOptionPane.showMessageDialog(
+                null,
+                "Selecione um produto!",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+        return;
+    }
+
+    String qtdTexto = txtqt.getText().trim();
+
+    EstoqueService service = new EstoqueService();
+
+    boolean sucesso = service.remover(cg, qtdTexto);
+
+    if (!sucesso) {
+        JOptionPane.showMessageDialog(
+                null,
+                "Erro ao remover (valor inválido)",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+        return;
+    }
+
+      lblMensagemR.setVisible(true);
+    lblMensagemR.setText("Produto removido");
+    
+    lblMensagemR.setForeground(Color.RED);
+    javax.swing.Timer timer = new javax.swing.Timer(3000, e -> {
+    lblMensagemR.setVisible(false);
+});
+timer.setRepeats(false);
+timer.start();
+
+    txtqt.setText("");
+}
 
     private void jlblCANCELARActionPerformed(ActionEvent evt) {
 
-        txtNome.setText("");
+      
 
         txtqt.setText("");
 
@@ -820,4 +825,37 @@ public class acoesdeestoque extends JFrame {
             );
         }
     }
+      public static void aplicarEstilo(JComboBox<?> combo) {
+        combo.setBackground(Color.WHITE);
+        combo.setFocusable(false);
+        combo.setBorder(BorderFactory.createCompoundBorder(
+                new javax.swing.border.LineBorder(new Color(200, 200, 200), 1, true),
+                BorderFactory.createEmptyBorder(0, 8, 0, 8)
+        ));
+        combo.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        combo.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton button = new JButton() {
+                    @Override
+                    public void paint(Graphics g) {
+                        Graphics2D g2 = (Graphics2D) g.create();
+                        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        g2.setColor(new Color(150, 150, 180));
+                        g2.setStroke(new BasicStroke(1.2f));
+                        int w = getWidth(), h = getHeight();
+                        g2.drawLine(w / 2 - 4, h / 2 - 2, w / 2, h / 2 + 2);
+                        g2.drawLine(w / 2, h / 2 + 2, w / 2 + 4, h / 2 - 2);
+                        g2.dispose();
+                    }
+                };
+                button.setBorderPainted(false);
+                button.setContentAreaFilled(false);
+                button.setFocusable(false);
+                return button;
+            }
+        });
+    }
+    
+    
 }

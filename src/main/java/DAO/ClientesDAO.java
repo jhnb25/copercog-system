@@ -106,8 +106,8 @@ public static List<Clientes> select_cliente() {
 
     } catch (Exception e) {
         throw new RuntimeException(e);
-    } finally {
-        Conexao.closeEntityManager();
+    }  finally {
+        if (em != null && em.isOpen()) em.close(); // ← só o EM local
     }
 }
        
@@ -129,8 +129,8 @@ public static List<String> select_nomes_clientes() {
     } catch (Exception e) {
         throw new RuntimeException(e); // mantém padrão da classe
 
-    } finally {
-        Conexao.closeEntityManager();
+    }  finally {
+        if (em != null && em.isOpen()) em.close(); 
     }
 }
       
@@ -157,8 +157,8 @@ public static Clientes retorna_um_cliente(String parametroNome) {
 
     } catch (Exception e) {
         throw new RuntimeException(e); // erro real sobe pra GUI
-    } finally {
-        Conexao.closeEntityManager();
+    }  finally {
+        if (em != null && em.isOpen()) em.close();
     }
 }
      

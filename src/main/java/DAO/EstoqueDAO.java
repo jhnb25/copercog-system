@@ -24,26 +24,17 @@ public class EstoqueDAO {
     
        
 public static List<Estoque> selectestoque() {
-   
-      List<Estoque> linhas = null;
-    
+    EntityManager em = Conexao.getEntityManager();
     try {
-        EntityManager em = Conexao.getEntityManager();
-
-        
-        linhas = em.createQuery
-    (
+        return em.createQuery(
                 "SELECT e FROM Estoque e",
                 Estoque.class
         ).getResultList();
-
+    } catch (Exception e) {
+        throw new RuntimeException(e);
     } finally {
-        Conexao.closeEntityManager();
+        if (em != null && em.isOpen()) em.close();
     }
-    
-    
-    return linhas;
-    
 }
     
     
@@ -73,7 +64,7 @@ public boolean addQuantidade(String nome, double qtd) {
         em.getTransaction().rollback();
         throw new RuntimeException(e);
     } finally {
-        em.close();
+        if (em != null && em.isOpen()) em.close();
     }
 }
 
@@ -117,39 +108,49 @@ public boolean diminuirQuantidade(String nome, double qtd) {
 
 //precisa retornar os nomes
 //retorna os produtos
-public  static List<String> select_nomes(){
- 
-  List<String> listaNomes = null;
-  
-    try {
-        EntityManager em = Conexao.getEntityManager();
+public static List<String> select_nomes() {
+    List<String> listaNomes = null;
+    EntityManager em = null;
 
-listaNomes = em.createQuery(
+    try {
+        em = Conexao.getEntityManager();
+
+        listaNomes = em.createQuery(
             "SELECT e.produto.nome FROM Estoque e", 
             String.class
-        ).getResultList();
+        )
+        .getResultList();
 
-    } catch(Exception ex)
-    {
-        
-    
-    
-    
-    
-    
-    }finally {
-        Conexao.closeEntityManager();
-  
-
-
-    
-    
+    } catch (Exception ex) {
+        throw new RuntimeException(ex);
+    } finally {
+        if (em != null && em.isOpen()) {
+            em.close();
+        }
     }
-return listaNomes;
-    
+
+    return listaNomes;
 }
 
-
+public static List<Cogumelos> select_produtos_em_estoque() {
+    List<Cogumelos> listaProdutos = null;
+    EntityManager em = null;
+    try {
+        em = Conexao.getEntityManager();
+        listaProdutos = em.createQuery(
+            "SELECT e.produto FROM Estoque e", 
+            Cogumelos.class
+        )
+        .getResultList();
+    } catch (Exception ex) {
+        throw new RuntimeException(ex);
+    } finally {
+        if (em != null && em.isOpen()) {
+            em.close();
+        }
+    }
+    return listaProdutos;
+}
 
 
 public static String select_nome(String filtro) {
@@ -207,10 +208,16 @@ public void inserirEstoque(Cogumelos produto) {
     } catch (Exception ex) {
         em.getTransaction().rollback();
         ex.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Erro ao inserir no estoque: " + ex.getMessage());
+          throw new RuntimeException(ex);
     } finally {
-        Conexao.closeEntityManager();
-    }}
+        if (em != null && em.isOpen()) em.close();
+    
+    
+    
+    }
+
+
+}
 
 
 
@@ -236,57 +243,17 @@ public void excluirEstoque(Estoque estoque) {
         if (em.getTransaction().isActive()) {
             em.getTransaction().rollback();
         }
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Erro ao excluir o registro: " + ex.getMessage());
+       throw new RuntimeException("Erro ao excluir o registro: " + ex.getMessage(), ex);
     } finally {
-        Conexao.closeEntityManager();
+        if (em != null && em.isOpen()) em.close();
+    
+    
+    
     }
 }
 
 
 
-
-
-public List<Integer> percorre_id() {
-    EntityManager em = Conexao.getEntityManager();
-    List<Integer> ids = new ArrayList<>();
-
-    try {
-        ids = em.createQuery(
-            "SELECT e.id FROM Estoque e",
-            Integer.class
-        )
-        .getResultList();
-
-        for (Integer id : ids) {
-            String nome = buscar_nome_por_id(em, id);
-            System.out.println("ID: " + id + " | Nome: " + nome);
-        }
-    } catch (Exception e) {
-        System.out.println("Erro: " + e.getLocalizedMessage());
-    } finally {
-        if (em != null && em.isOpen()) {
-            Conexao.closeEntityManager();
-        }
-    }
-
-    return ids;
-}
-
-public String buscar_nome_por_id(EntityManager em, int idEstoque) {
-    String nome = null;
-    try {
-        nome = em.createQuery(
-            "SELECT e.produto.nome FROM Estoque e WHERE e.id = :id",
-            String.class
-        )
-        .setParameter("id", idEstoque)
-        .getSingleResult();
-    } catch (Exception e) {
-        nome = null;
-    }
-    return nome;
-}
 
 
 

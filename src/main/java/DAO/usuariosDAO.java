@@ -19,70 +19,48 @@ import javax.swing.JOptionPane;
 public class usuariosDAO {
     
     
-    public static String getMD5(String texto) {
-    try {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        
-        byte[] messageDigest = md.digest(texto.getBytes());
+      public static String gerarHash(String senha) {
 
-        BigInteger no = new BigInteger(1, messageDigest);
+        try {
 
-        String hashtext = no.toString(16);
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
 
-        while (hashtext.length() < 32) {
-            hashtext = "0" + hashtext;
+            byte[] hash = md.digest(senha.getBytes());
+
+            StringBuilder sb = new StringBuilder();
+
+            for (byte b : hash) {
+                sb.append(String.format("%02x", b));
+            }
+
+            return sb.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
-
-        return hashtext;
-
-    } catch (NoSuchAlgorithmException e) {
-        throw new RuntimeException(e);
     }
-}
     
     
     //criptografia no bd ,envia string e transforma na tabela do bd em hash, valida 
     
   
     
-      public static usuarios validacao(usuarios usuario) {
-                                 EntityManager em = Conexao.getEntityManager();
-                                       usuarios usuario1 = null;
-                       
-                                               
-String textoQuery = "SELECT u FROM usuarios u WHERE u.login = :login AND u.senha = :senha";
-                   
-      TypedQuery<usuarios> consulta = em.createQuery(textoQuery, usuarios.class);
-                        consulta.setParameter("login", usuario.getLogin());
-    consulta.setParameter("senha", usuario.getSenha());
-                        
-                   
-                          
-               
-                          
-                            try {
-         usuario1 = consulta.getSingleResult();
-        
-        
-              
+     public static usuarios validacao(usuarios usuario) {
+    EntityManager em = Conexao.getEntityManager();
+    try {
+        String textoQuery = "SELECT u FROM usuarios u WHERE u.login = :login AND u.senha = :senha";
+        return em.createQuery(textoQuery, usuarios.class)
+                .setParameter("login", usuario.getLogin())
+                .setParameter("senha", usuario.getSenha())
+                .getSingleResult();
 
-        return usuario1;
     } catch (jakarta.persistence.NoResultException e) {
         JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
         return null;
+    } finally {
+        if (em != null && em.isOpen()) em.close(); 
     }
-                          
-                          
-                          
-                          
-                          
-                         
-                              
-                              
-                              
-                              
-                              
-                          } 
+}
       
     
     
