@@ -63,13 +63,13 @@ public class TeladeUsuarios extends JFrame {
         JLabel lUser = new JLabel("Usuário");
         lUser.setBounds(160, 50, 100, 30);
 
-        txtLogin = new JTextField("admin_master");
+        txtLogin = new JTextField("");
         txtLogin.setBounds(50, 80, 300, 30);
 
         JLabel lPass = new JLabel("Senha");
         lPass.setBounds(160, 120, 100, 30);
 
-        txtSenha = new JPasswordField("senha123"); // JPasswordField oculta a senha
+        txtSenha = new JPasswordField(""); // JPasswordField oculta a senha
         txtSenha.setBounds(50, 150, 300, 30);
 
         btnLogin = new JButton("Entrar");
@@ -115,7 +115,7 @@ String senhaCriptografada = gerarHash(senhaPura);
         
         
         
-        if (usuarioLogado == null) return; // mensagem já exibida no DAO
+        if (usuarioLogado == null) return;
 
         String tipo = usuarioLogado.getTipo();
 

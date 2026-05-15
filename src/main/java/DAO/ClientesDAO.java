@@ -113,7 +113,7 @@ public static List<Clientes> select_cliente() {
        
       
 
-//SELECT c.cpf FROM Clientes c WHERE c.cpf = :cpf
+
 
       
 public static List<String> select_nomes_clientes() {
@@ -138,8 +138,7 @@ public static List<String> select_nomes_clientes() {
       
   
         
-//por parametro busca só 1 nome
-  //filtro
+
 public static Clientes retorna_um_cliente(String parametroNome) {
 
     EntityManager em = Conexao.getEntityManager();
@@ -156,7 +155,7 @@ public static Clientes retorna_um_cliente(String parametroNome) {
         return null; 
 
     } catch (Exception e) {
-        throw new RuntimeException(e); // erro real sobe pra GUI
+        throw new RuntimeException(e);
     }  finally {
         if (em != null && em.isOpen()) em.close();
     }

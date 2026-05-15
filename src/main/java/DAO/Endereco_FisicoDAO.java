@@ -7,7 +7,7 @@ package DAO;
 import static DAO.Conexao.getEntityManager;
 import copercog.model.Endereco_Fisico;
 import jakarta.persistence.EntityManager;
-import javax.swing.JOptionPane;
+
 
 /**
  *

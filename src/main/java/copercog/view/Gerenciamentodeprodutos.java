@@ -126,7 +126,7 @@ public class Gerenciamentodeprodutos extends JFrame {
 
         
         
-        //new Color(0xEEEEEE)
+
      
 
         

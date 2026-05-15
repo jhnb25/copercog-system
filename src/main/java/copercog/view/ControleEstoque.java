@@ -287,7 +287,7 @@ public class ControleEstoque extends JFrame {
         Estoque e = linhas.get(linhaModel);
         EstoqueDAO dao = new EstoqueDAO();
         CogumelosDAO dao2= new CogumelosDAO();
-      //daqui pra baixop precisa do try catch pra pegar aquele runtime
+   
           dao.excluirEstoque(e);              
     dao2.delete_cogumelos(e.getProduto());
         recarregarDados();

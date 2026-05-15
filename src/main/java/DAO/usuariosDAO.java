@@ -6,8 +6,6 @@ package DAO;
 
 import copercog.model.usuarios;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;

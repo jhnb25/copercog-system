@@ -368,7 +368,7 @@ private void jbtncadastrarActionPerformed(ActionEvent evt) {
 
     try {
 
-        // 5. Tratamento numérico do preço
+      
         double preco = Double.parseDouble(precotxt.replace(",", "."));
 
         if (preco <= 0) {
@@ -379,7 +379,7 @@ private void jbtncadastrarActionPerformed(ActionEvent evt) {
         }
 
 
-        // 6. Definição da categoria do produto
+      
         String tipoProduto = jrbinnatura.isSelected() ? "in natura" : "conserva";
 
 
@@ -391,7 +391,7 @@ private void jbtncadastrarActionPerformed(ActionEvent evt) {
         dao.insert_cogumelos(cogumelo);
 
 
-        // 8. Procedimentos de sucesso
+
         new TelaConfirmacao().setVisible(true);
 
         dispose();
