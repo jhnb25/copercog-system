@@ -1,0 +1,6 @@
+target/
+dist/
+build/
+nbproject/private/
+*.class
+*.jar
