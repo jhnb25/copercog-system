@@ -7,7 +7,7 @@ Em desenvolvimento
 Versão 1.0.0
 
 ##Time de desenvolvedores:
--Johan bryan da silva
+Johan bryan da silva
 (criador/administrador do repositório)
 
 ##Funcionalidades:
