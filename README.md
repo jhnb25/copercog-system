@@ -33,12 +33,12 @@ Johan bryan da silva
 -----------------
 
 ##Tecnologias:
-Java
-MySql
-Java swing
-JPA
-Hibernate
-Maven
+-Java
+-MySql
+-Java swing
+-JPA
+-Hibernate
+-Maven
 
 
 ##Ferramentas de Desenvolvimento:
