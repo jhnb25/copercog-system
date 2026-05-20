@@ -6,7 +6,7 @@ Copercog
 Em desenvolvimento
 Versão 1.0.0
 
-##Time de desenvolvedores:
+#Time de desenvolvedores:
 Johan bryan da silva
 (criador/administrador do repositório)
 
